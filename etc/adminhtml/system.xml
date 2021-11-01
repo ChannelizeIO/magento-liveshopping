@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright 2021 Channelize.io. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="channelize" translate="label" sortOrder="10">
+            <label>Channelize.io</label>
+        </tab>
+        <section id="channelizeliveshopping" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Live Shopping and Video Streams</label>
+            <tab>channelize</tab>
+            <resource>Channelize_LiveShopping::config_channelize_liveshopping</resource>
+            <group id="implement" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Implement Code</label>
+                <frontend_model>Channelize\LiveShopping\Block\Adminhtml\System\Config\IntegrationHelper</frontend_model>
+            </group>
+            <group id="configuration" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="status" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Activate</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[If this is set to "Yes", the Live Shopping & Video Streams will be activated.]]></comment>
+                </field>
+                <field id="public_key" translate="label comment" type="text" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public Key</label>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[Enter the Channelize.io Public Key in this field. You can find the Public Key in your <a href="https://channelize.io/lsc/account/login" target="_blank">Dashboard</a>.]]></comment>
+                </field>
+                <field id="private_key" translate="label comment" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Private Key</label>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[Enter the Channelize.io Private Key in this field. You can find the Private Key in your <a href="https://channelize.io/lsc/account/login" target="_blank">Dashboard</a>.]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

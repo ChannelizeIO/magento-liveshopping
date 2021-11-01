@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright 2021 Channelize.io. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    
+    <!--Login and Register-->
+    <event name="customer_login">
+        <observer name="channelize_liveshopping_customer_login_observer"
+            instance="Channelize\LiveShopping\Observer\CustomerLoginObserver" />
+    </event>
+    
+    <!--Update Customer Account Details From Frontend-->
+    <event name="customer_account_edited">
+        <observer name="channelize_liveshopping_customer_account_edited_observer"
+            instance="Channelize\LiveShopping\Observer\UpdateCustomerObserver" />
+    </event>
+    
+    <!--Update Customer Account Details From Backed-->
+    <event name="adminhtml_customer_save_after">
+        <observer name="channelize_liveshopping_adminhtml_customer_save_after_observer"
+            instance="Channelize\LiveShopping\Observer\UpdateAdminhtmlCustomerObserver" />
+    </event>
+    
+    <!--Delete Customer Account-->
+    <event name="customer_delete_after">
+        <observer name="channelize_liveshopping_customer_delete_after_observer"
+            instance="Channelize\LiveShopping\Observer\CustomerDeleteObserver" />
+    </event>
+    
+    <!--Delete Customer Account-->
+    <event name="customer_logout">
+        <observer name="channelize_liveshopping_customer_logout_observer"
+            instance="Channelize\LiveShopping\Observer\CustomerLogoutObserver" />
+    </event>
+    
+    <!--Save Admin Configuration-->
+    <event name="admin_system_config_changed_section_channelizeliveshopping">
+        <observer name="channelize_liveshopping_admin_system_config_save_observer"
+            instance="Channelize\LiveShopping\Observer\AdminSystemConfigSaverObserver" />
+    </event>
+    
+</config>

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright 2021 Channelize.io. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Channelize\LiveShopping\Block\Widget\LiveShopping" id="channelize_liveshopping_liveshopping">
+        <label>Channelize Live Shopping and Video Streams</label>
+        <description>Channelize Live Shopping and Video Streams</description>
+    </widget>
+</widgets>

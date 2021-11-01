@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright 2021 Channelize.io. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            id="Channelize_LiveShopping::channelize_liveshopping_menu"
+            title="Channelize.io Live Shopping and Video Streams"
+            module="Channelize_LiveShopping"
+            sortOrder="20"
+            dependsOnModule="Channelize_LiveShopping"
+            resource="Channelize_LiveShopping::main_menu"
+        />
+        
+        <!--Module Setting-->
+        <add
+            id="Channelize_LiveShopping::liveshopping_module_setting"
+            title="Settings"
+            module="Channelize_LiveShopping"
+            sortOrder="10"
+            resource="Channelize_LiveShopping::liveshopping_module_setting"
+            parent="Channelize_LiveShopping::channelize_liveshopping_menu"
+            action="adminhtml/system_config/edit/section/channelizeliveshopping"
+        />
+        
+        <!--Stream Page Instruction-->
+        <add
+            id="Channelize_LiveShopping::liveshopping_stream_page_instruction"
+            title="Live Shop Page"
+            module="Channelize_LiveShopping"
+            sortOrder="20"
+            resource="Channelize_LiveShopping::liveshopping_stream_page_instruction"
+            parent="Channelize_LiveShopping::channelize_liveshopping_menu"
+            action="liveshopping/instruction/page"
+        />
+        
+        <!--Module Setup Instruction-->
+        <add
+            id="Channelize_LiveShopping::liveshopping_setup_instruction"
+            title="Setup Instructions"
+            module="Channelize_LiveShopping"
+            sortOrder="30"
+            resource="Channelize_LiveShopping::liveshopping_setup_instruction"
+            parent="Channelize_LiveShopping::channelize_liveshopping_menu"
+            action="liveshopping/instruction/setup"
+        />
+    </menu>
+</config>

@@ -1,0 +1,62 @@
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $storeManager = $objectManager->get(\Magento\Store\Model\StoreManagerInterface::class);
+    $streamsPageUrl = $storeManager->getStore()->getBaseUrl() . 'streams';
+?>
+
+<div class="channelize-live-shop-page">
+    <div class="top-heading">
+        <h2>Live Shop Page</h2>
+        <p>The Live Shop Page displays a list of all the Shopping Shows on your store frontend that you have created using the <a href="https://channelize.io/lsc/account/login" target="_blank">Live Shopping & Video Streams Dashboard</a>. When you configure the extension from <b>General Settings</b>, this page is automatically generated. This page is also available in Pages with the title <b>Streams</b>.</p>
+    </div>
+    <div class="live-shop-page">
+        <h3>Live Shop Page URL</h3>
+        <p><a href="<?=/* @noEscape */ $streamsPageUrl?>" target="_blank"><?=/* @noEscape */ $streamsPageUrl?></a></p>
+        
+        <p>Please note that the Live Shop Page will not be created if any of the following conditions are met:</p>
+        <ul>
+            <li>
+                <p>The Live Shop Page will not be created if you already have a page with the same URL <b>(Streams)</b>. In this case, you must modify the previously created page URL and re-save the General Settings of Live Shopping & Video Streams extension.</p>
+            </li>
+            <li>
+                <p>If you have successfully configured the General Settings but yet, the Streams page returns 404 (Page not found) then it is possible that the Streams page is not available for the selected Store View type.</p>
+                <p>To fix this problem, navigate to <b>Menu > Channelize.io Live Shopping and Video Streams > Settings > Store View</b>. Now, select the Store View from the dropdown to display Streams Page on your website for that specific Store View only. Once this is done, save the configuration and check on your Website Store View. <a href="https://prnt.sc/1wkq4yj" target="_blank">Ref Screenshot</a>.</p>
+                <p>In case you want to display Streams Page on your website globally then set the Store View as <b>Default Config</b> from the dropdown and save the changes. Now, all of your Store Views will have access to the Streams page. <a href="https://prnt.sc/1wkq2t2" target="_blank">Ref Screenshot</a>.</p>
+            </li>
+        </ul>
+       
+    </div>
+    <div class="live-shop-page-menu">
+        <h3>Create a menu for the Live Shop Page</h3>
+        <p>There are two ways to add the Live Shop page menu to your website:</p>
+        <ul>
+            <li>
+                <p>If you use a third-party extension to add menus to your website, you can use it to create a new menu with the Streams Page URL <b>(Steams)</b> and include the Live Shop page menu.</p>
+            </li>
+            <li>
+                <p>Alternatively, you can add a menu either to the Header or Main Menu of your website as instructed in this <a href="http://help.channelize.io/85-86--how-can-i-add-a-live-shop-page-menu-to-my-magento-website" target="_blank">article</a>.</p>
+            </li>
+        </ul>
+        <p>If you still have queries or problems after making the changes, please contact us at <a href="mailto:support@channelize.io">support@channelize.io</a>.</p>
+    </div> 
+</div>
+
+<style>
+    .channelize-live-shop-page h1, h2, h3 {
+        font-weight: 600;
+    }
+    .channelize-live-shop-page p {
+        padding: 3px 0px;
+    }
+    .channelize-live-shop-page .top-heading {
+        padding: 10px 0px;
+    }
+    .channelize-live-shop-page .live-shop-page, .live-shop-page-menu {
+        margin: 15px 0px;
+        background-color: #e6e6e6;
+        padding: 20px;
+    }
+    .channelize-live-shop-page ul li {
+        margin-left: 20px;
+    }
+</style>

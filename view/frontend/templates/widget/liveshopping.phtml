@@ -1,0 +1,84 @@
+<!--
+/**
+ * Copyright 2021 Channelize.io. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+<?php if ($block->isModuleEnable()) {
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $moduleUtils = $objectManager->get(\Channelize\LiveShopping\Helper\Utils::class);
+    $customerModel = $objectManager->create(\Magento\Customer\Model\Customer::class);
+        
+    // If channelize access token not set in customer session then create new token andd set in customer session.
+    if (!$block->getAccessToken() && $block->isLoggedIn()) {
+        $customer = $customerModel->load($block->getCustomerId());
+        $moduleUtils->loginCustomerOnChannelize($customer);
+    }
+    
+    // If public key change login again with new public key.
+    $cookiesPublicKey = $block->getCookies();
+    if ((isset($cookiesPublicKey) && $cookiesPublicKey !== $block->getPublicKey()) && $block->isLoggedIn()) {
+        $customer = $customerModel->load($block->getCustomerId());
+        $moduleUtils->loginCustomerOnChannelize($customer);
+    }
+    
+    // Get logged in user id
+    $userId = "null";
+    if ($block->isLoggedIn()) {
+        $loggedInCustomerId = $block->getCustomerId();
+        $userId = "\"$loggedInCustomerId\"";
+    }
+    
+    // Get channelize access token
+    $accessToken = "null";
+    if ($block->isLoggedIn()) {
+        $channelizeAccessToken = $block->getAccessToken();
+        $accessToken = "\"$channelizeAccessToken\"";
+    }
+    
+    ?>
+
+<div id="channelize-livebroadcast-profile"></div>
+<div id="channelize-livebroadcast-list"></div>
+
+<script>
+    (function(d, s, id) {
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) return;
+         js = d.createElement(s); js.id = id;
+         js.src = "https://cdn.channelize.io/live-broadcast/wrappers/magento/prod/client.js";
+         fjs.parentNode.insertBefore(js, fjs);
+    }(document, "script", "channelize-magento-livebroadcast-id"));
+
+    window.initChannelizeLivebroadcastMagentoOptions = {
+        userId: <?=/* @noEscape */ $userId?>,
+        accessToken: <?=/* @noEscape */ $accessToken?>,
+        publicKey: "<?=/* @noEscape */ $block->getPublicKey()?>",
+        settings: {
+            locale: "<?=/* @noEscape */ $block->getStoreLanguage()?>",
+            currency: "<?=/* @noEscape */ $block->getCurrentCurrencyCode()?>",
+            cartUrl:  "<?=$block->escapeUrl($block->getUrl('checkout/cart'))?>",
+            share: {
+                baseUrl: "<?=$block->escapeUrl($block->getUrl() . 'streams')?>"
+            }
+        },
+        ajaxApi: {
+            baseUrl: "<?=$block->escapeUrl($block->getUrl())?>"
+        },
+        whenNotAllowedToWatch: function(liveBroadcast) {
+            // Redirect to login URL
+            var redirectUrl = "<?=$block->escapeUrl($block->getUrl('streams'))?>" + liveBroadcast.id;
+            window.location = "<?=$block->escapeUrl($block->getUrl('customer/account/login'))?>" + 
+                    "referer/" + btoa(redirectUrl);
+        }
+    };
+ 
+</script>
+<?php } ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Channelize_LiveShopping/js/hls": {}
+        }
+    }
+</script>
