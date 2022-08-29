@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright 2021 Channelize.io. All rights reserved.
+ * Copyright 2022 Channelize.io. All rights reserved.
  * See LICENSE.txt for license details.
  */
 -->
@@ -18,5 +18,8 @@
                 </item>
             </argument>
         </arguments>
+    </type>
+    <type name="Magento\Framework\App\Request\CsrfValidator">
+        <plugin name="csrf_validator_skip" type="Channelize\LiveShopping\Plugin\CsrfValidatorSkip" />
     </type>
 </config>
