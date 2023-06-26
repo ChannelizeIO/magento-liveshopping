@@ -50,6 +50,7 @@
          fjs.parentNode.insertBefore(js, fjs);
     }(document, "script", "channelize-magento-livebroadcast-id"));
 
+    var { settings = {}, ...rest } = window.initChannelizeLivebroadcastMagentoOptions || {} ;
     window.initChannelizeLivebroadcastMagentoOptions = {
         userId: <?=/* @noEscape */ $userId?>,
         accessToken: <?=/* @noEscape */ $accessToken?>,
@@ -60,7 +61,8 @@
             cartUrl:  "<?=$block->escapeUrl($block->getUrl('checkout/cart'))?>",
             share: {
                 baseUrl: "<?=$block->escapeUrl($block->getUrl() . 'streams')?>"
-            }
+            },
+            ...settings,
         },
         ajaxApi: {
             baseUrl: "<?=$block->escapeUrl($block->getUrl())?>"
@@ -70,7 +72,8 @@
             var redirectUrl = "<?=$block->escapeUrl($block->getUrl('streams'))?>" + liveBroadcast.id;
             window.location = "<?=$block->escapeUrl($block->getUrl('customer/account/login'))?>" + 
                     "referer/" + btoa(redirectUrl);
-        }
+        },
+        ...rest,
     };
  
 </script>
