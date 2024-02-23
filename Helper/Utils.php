@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2022 Channelize.io. All rights reserved.
+ * Copyright 2024 Channelize.io. All rights reserved.
  * See LICENSE.txt for license details.
  */
 

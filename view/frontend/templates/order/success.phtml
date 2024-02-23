@@ -1,0 +1,70 @@
+<!--
+/**
+ * Copyright 2024 Channelize.io. All rights reserved.
+ * See LICENSE.txt for license details.
+ */
+-->
+
+<?php
+    $orderDetails = json_encode($block->getOrderDetails($block->getOrderId()));
+?>
+
+<script>
+function onPurchase() {
+   // Get tracked products of the show
+    const trackedProducts =   window.ChannelizeLiveBroadcastAnalytics.getTrackedProducts();
+    
+    if (!trackedProducts || !trackedProducts.length) {
+      return;
+    }
+
+    var order = <?=$orderDetails?>;
+
+    var filteredProducts = order.products.filter(n => trackedProducts.indexOf(n.product_id)>= 0 );
+    
+    if (!filteredProducts || !filteredProducts.length) {
+      return;
+    }
+    
+    // Sample code - calculate orderAmount
+    let orderAmount = filteredProducts.reduce((sum, product) => {
+        const totalPrice = parseFloat(product.price) * parseFloat(product.qty_ordered);
+
+        // Apply discounts
+        const totalDiscount = parseFloat(product.discount_amount);
+        
+        // Apply Taxes
+        const totalTax = parseFloat(product.tax_amount);
+
+        const finalPrice = totalPrice - totalDiscount + totalTax;
+        
+        return sum + finalPrice;
+    }, 0.00);
+    
+    var activity = {
+        name: "PURCHASE",
+        data: {
+          orderId: order.orderId,
+          products: filteredProducts.map(n => ({id: n.product_id})),
+          orderAmount,
+          currency: order.currencyCode
+        }
+    };
+    
+    if (order.customerId) {
+        activity.user = {
+          id: order.customerId
+        };
+    }
+    
+    window.ChannelizeLiveBroadcastAnalytics.trackActivity(activity);
+}
+
+ // Load the tracking library and sec invoke onPurchase() method
+ (function(){
+   var element = document.createElement('script');      
+   element.src = 'https://cdn.channelize.io/live-broadcast/analytics/sdk/prod/2.0.0/browser.js';
+   element.onload = onPurchase;
+   document.head.appendChild(element);
+ })();
+</script>

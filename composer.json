@@ -2,7 +2,7 @@
     "name": "channelize/liveshopping",
     "description": "Channelize.io live Shopping can help in transforming online sale with complete live stream shopping solution.",
     "type": "magento2-module",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "license": [
         "OSL-3.0"
     ],
