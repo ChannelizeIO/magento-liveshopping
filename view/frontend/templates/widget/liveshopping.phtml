@@ -73,6 +73,7 @@
             window.location = "<?=$block->escapeUrl($block->getUrl('customer/account/login'))?>" + 
                     "referer/" + btoa(redirectUrl);
         },
+        shouldRenderInShadowRoot: true,
         ...rest,
     };
  
