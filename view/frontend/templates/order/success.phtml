@@ -5,10 +5,6 @@
  */
 -->
 
-<?php
-    $orderDetails = json_encode($block->getOrderDetails($block->getOrderId()));
-?>
-
 <script>
 function onPurchase() {
    // Get tracked products of the show
@@ -18,7 +14,12 @@ function onPurchase() {
       return;
     }
 
-    var order = <?=$orderDetails?>;
+    var order = JSON.parse('<?= $escaper->escapeJs(
+        (string) json_encode(
+            $block->getOrderDetails($block->getOrderId()),
+            JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT
+        )
+    ) ?>');
 
     var filteredProducts = order.products.filter(n => trackedProducts.indexOf(n.product_id)>= 0 );
     
