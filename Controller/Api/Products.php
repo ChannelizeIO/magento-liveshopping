@@ -10,6 +10,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * Lists/searches the store's catalog for the Channelize Dashboard's
@@ -21,6 +22,7 @@ use Magento\Framework\Controller\ResultFactory;
 class Products extends Action
 {
     private const DEFAULT_LIMIT = 25;
+    private const MAX_LIMIT = 250;
 
     /**
      * @var \Magento\Catalog\Api\ProductRepositoryInterface
@@ -58,6 +60,11 @@ class Products extends Action
     private $httpResponse;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param Context $context
      * @param ResponseInterface $response
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
@@ -66,6 +73,7 @@ class Products extends Action
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Channelize\LiveShopping\Helper\Config $config
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Context $context,
@@ -75,7 +83,8 @@ class Products extends Action
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Channelize\LiveShopping\Helper\Config $config
+        \Channelize\LiveShopping\Helper\Config $config,
+        LoggerInterface $logger
     ) {
         parent::__construct($context);
         $this->httpResponse = $response;
@@ -85,6 +94,7 @@ class Products extends Action
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**
@@ -125,9 +135,12 @@ class Products extends Action
                 'products' => array_values(array_map([$this, 'toProductData'], $items)),
             ]);
         } catch (\Exception $exception) {
+            $this->logger->error('Channelize LiveShopping products API error: ' . $exception->getMessage(), [
+                'exception' => $exception,
+            ]);
             return $resultJson->setHttpResponseCode(500)->setData([
                 'statusCode' => 500,
-                'message' => __($exception->getMessage()),
+                'message' => __('Unable to fetch products.'),
                 'error' => true,
             ]);
         }
@@ -163,7 +176,7 @@ class Products extends Action
      */
     private function fetchProducts(string $title, string $idList, int $limit, int $skip): array
     {
-        $limit = $limit > 0 ? $limit : self::DEFAULT_LIMIT;
+        $limit = $limit > 0 ? min($limit, self::MAX_LIMIT) : self::DEFAULT_LIMIT;
         $skip = max(0, $skip);
 
         $this->filterBuilder->setField('status')
