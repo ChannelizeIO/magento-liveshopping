@@ -37,7 +37,7 @@ class UpdateCustomerObserver implements \Magento\Framework\Event\ObserverInterfa
      *
      * @var \Magento\Customer\Model\CustomerFactory
      */
-    protected $_customer;
+    protected $_customerFactory;
     
     /**
      * @param \Channelize\LiveShopping\Helper\Config $helperConfig

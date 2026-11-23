@@ -8,6 +8,7 @@
 namespace Channelize\LiveShopping\Observer;
 
 use Magento\Framework\Event\Observer;
+use Magento\Cms\Model\ResourceModel\Page;
 
 class AdminSystemConfigSaverObserver implements \Magento\Framework\Event\ObserverInterface
 {
@@ -29,20 +30,28 @@ class AdminSystemConfigSaverObserver implements \Magento\Framework\Event\Observe
      * @var \Magento\Cms\Model\PageFactory
      */
     private $_pageFactory;
+
+    /**
+     * @var Page
+     */
+    private $pageResource;
     
     /**
      * @param \Channelize\LiveShopping\Helper\Config $helperConfig
      * @param \Channelize\LiveShopping\Helper\Utils $helperUtils
      * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param Page $pageResource
      */
     public function __construct(
         \Channelize\LiveShopping\Helper\Config $helperConfig,
         \Channelize\LiveShopping\Helper\Utils $helperUtils,
-        \Magento\Cms\Model\PageFactory $pageFactory
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        Page $pageResource
     ) {
         $this->_helperConfig = $helperConfig;
         $this->_helperUtils = $helperUtils;
         $this->_pageFactory = $pageFactory;
+        $this->pageResource = $pageResource;
     }
     
     /**
@@ -75,7 +84,7 @@ class AdminSystemConfigSaverObserver implements \Magento\Framework\Event\Observe
             ];
 
             // create page
-            $this->_pageFactory->create()->setData($cmsPageData)->save();
+            $this->pageResource->save($this->_pageFactory->create()->setData($cmsPageData));
         }
     }
 }

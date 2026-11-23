@@ -7,9 +7,20 @@
 namespace Channelize\LiveShopping\Block;
 
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Checkout\Model\Session;
+use Magento\Sales\Model\OrderRepository;
 
 class Success extends \Magento\Framework\View\Element\Template
 {
+    /**
+     * @var Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var OrderRepository
+     */
+    protected $_order;
 
     public function __construct(
         Context $context,
@@ -21,7 +32,8 @@ class Success extends \Magento\Framework\View\Element\Template
         $this->_order = $order;
     }
     
-    public function getOrderDetails($orderId) {
+    public function getOrderDetails($orderId)
+    {
         $order = $this->_order->get($orderId);
         $orderItems = $order->getAllItems();
         
@@ -38,7 +50,8 @@ class Success extends \Magento\Framework\View\Element\Template
         ];
     }
     
-    public function getOrderId() {
+    public function getOrderId()
+    {
         return  $this->_checkoutSession->getLastRealOrderId();
     }
 }
